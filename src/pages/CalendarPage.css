@@ -84,7 +84,7 @@
 
 .calendar-weekdays {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 2px;
   margin-bottom: var(--space-sm);
 }
@@ -101,7 +101,7 @@
 
 .calendar-days {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 2px;
 }
 
@@ -386,6 +386,15 @@
 @media (max-width: 768px) {
   .calendar-page {
     padding-top: 80px;
+  }
+
+  /* 32px of padding each side leaves too little room for 7 day columns. */
+  .calendar-grid-wrapper {
+    padding: var(--space-md);
+  }
+
+  .calendar-day {
+    padding: 2px;
   }
 
   .calendar-header {

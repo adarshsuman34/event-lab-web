@@ -185,6 +185,27 @@ export default function Navbar() {
               </Link>
             )}
           </div>
+
+          {!user && (
+            <div className="navbar-mobile-auth">
+              <button
+                type="button"
+                className="btn btn-secondary btn-lg"
+                onClick={() => { setMobileOpen(false); openAuth('login'); }}
+                id="btn-mobile-login"
+              >
+                Sign In
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary btn-lg"
+                onClick={() => { setMobileOpen(false); openAuth('signup'); }}
+                id="btn-mobile-signup"
+              >
+                Sign Up
+              </button>
+            </div>
+          )}
         </div>
       )}
     </nav>
