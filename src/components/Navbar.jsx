@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../App';
 import {
-  Calendar, Plus, Search, LayoutDashboard, Shield, Menu, X,
+  Calendar, CalendarDays, Plus, Search, LayoutDashboard, Shield, Menu, X,
   LogOut, User, ChevronDown, Sparkles
 } from 'lucide-react';
 import './Navbar.css';
@@ -46,6 +46,7 @@ export default function Navbar() {
 
   const navLinks = [
     { path: '/', label: 'Explore', icon: <Search size={18} /> },
+    { path: '/events', label: 'Events', icon: <CalendarDays size={18} /> },
     { path: '/calendar', label: 'Calendar', icon: <Calendar size={18} /> },
   ];
 

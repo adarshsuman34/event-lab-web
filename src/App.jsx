@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, createContext, useContext } from 'rea
 import { Routes, Route, Link } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import HomePage from './pages/HomePage';
+import EventsPage from './pages/EventsPage';
 import EventDetailPage from './pages/EventDetailPage';
 import CreateEventPage from './pages/CreateEventPage';
 import CalendarPage from './pages/CalendarPage';
@@ -207,6 +208,7 @@ function App() {
           <main>
             <Routes>
               <Route path="/" element={<HomePage events={events} />} />
+              <Route path="/events" element={<EventsPage events={events} />} />
               <Route
                 path="/event/:id"
                 element={<EventDetailPage events={events} onRsvp={toggleRsvp} rsvpedIds={rsvpedIds} />}
