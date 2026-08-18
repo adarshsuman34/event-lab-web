@@ -2,7 +2,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 import {
   ArrowLeft, Calendar, Clock, MapPin, Users, ExternalLink, Share2,
-  Mail, Phone, Globe, CheckCircle, Heart, Flag, MessageCircle,
+  Mail, Phone, Globe, CheckCircle, Heart, Flag,
   Tag, Eye, Bookmark
 } from 'lucide-react';
 import { getCategoryById } from '../data/mockData';
@@ -329,8 +329,8 @@ export default function EventDetailPage({ events, onRsvp, rsvpedIds = [], onSave
                   <span>{event.rsvpCount} RSVPs</span>
                 </div>
                 <div className="detail-stat">
-                  <MessageCircle size={16} />
-                  <span>{event.commentCount ?? 0} comments</span>
+                  <Bookmark size={16} />
+                  <span>{event.saveCount ?? 0} saves</span>
                 </div>
               </div>
             </div>

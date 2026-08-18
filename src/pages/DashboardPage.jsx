@@ -48,11 +48,13 @@ export default function DashboardPage({ events, pendingEvents = [], savedEvents 
 
   const totalViews = myEvents.reduce((sum, e) => sum + e.viewCount, 0);
   const totalRsvps = myEvents.reduce((sum, e) => sum + e.rsvpCount, 0);
+  const totalSaves = myEvents.reduce((sum, e) => sum + (e.saveCount ?? 0), 0);
 
   const stats = [
     { label: 'Total Events', value: myEvents.length, icon: <Calendar size={20} />, color: 'var(--color-primary-light)' },
     { label: 'Total Views', value: totalViews.toLocaleString(), icon: <Eye size={20} />, color: 'var(--color-secondary)' },
     { label: 'Total RSVPs', value: totalRsvps, icon: <Users size={20} />, color: 'var(--color-accent)' },
+    { label: 'Total Saves', value: totalSaves, icon: <Bookmark size={20} />, color: 'var(--color-primary-light)' },
     { label: 'Upcoming', value: upcomingEvents.length, icon: <TrendingUp size={20} />, color: 'var(--color-success)' },
   ];
 

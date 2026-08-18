@@ -43,7 +43,9 @@
 /* Stats */
 .dash-stats {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  /* auto-fit rather than a fixed count, so adding or removing a stat card
+     does not leave an orphan on its own row. */
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
   gap: var(--space-lg);
   margin-bottom: var(--space-2xl);
 }

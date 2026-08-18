@@ -34,6 +34,7 @@ export function mapEvent(row) {
     rsvpEnabled: row.rsvp_enabled,
     capacity: row.capacity,
     rsvpCount: row.rsvp_count ?? 0,
+    saveCount: row.save_count ?? 0,
     tags: row.tags || [],
     status: row.status,
     isVerified: row.is_verified,
