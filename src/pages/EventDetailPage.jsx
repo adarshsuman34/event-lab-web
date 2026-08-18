@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 import {
@@ -7,6 +8,7 @@ import {
 } from 'lucide-react';
 import { getCategoryById } from '../data/mockData';
 import { useToast } from '../App';
+import * as api from '../lib/api';
 import './EventDetailPage.css';
 
 // Renders the lightweight markdown subset used by event descriptions.
@@ -53,6 +55,16 @@ export default function EventDetailPage({ events, onRsvp, rsvpedIds = [], onSave
   const event = events.find(e => e.id === id);
   const hasRsvped = rsvpedIds.includes(id);
   const hasSaved = savedIds.includes(id);
+
+  // Count one view per event per browser session, so refreshing or coming
+  // back from the RSVP flow does not inflate the number.
+  useEffect(() => {
+    if (!id) return;
+    const key = `viewed:${id}`;
+    if (sessionStorage.getItem(key)) return;
+    sessionStorage.setItem(key, '1');
+    api.incrementView(id);
+  }, [id]);
 
   if (!event) {
     return (

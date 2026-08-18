@@ -229,6 +229,13 @@ export async function removeRsvp(eventId, userId) {
   if (error) throw error;
 }
 
+// ---------- Views ----------
+export async function incrementView(eventId) {
+  // Fire-and-forget: a failed view count must never break the page.
+  const { error } = await supabase.rpc('increment_view', { target_id: eventId });
+  if (error) console.debug('view count skipped:', error.message);
+}
+
 // ---------- Saved events ----------
 // One call returns both the ids (for button state) and the full events
 // (for the dashboard), so the two can never disagree.
