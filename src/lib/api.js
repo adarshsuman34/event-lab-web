@@ -228,6 +228,44 @@ export async function removeRsvp(eventId, userId) {
   if (error) throw error;
 }
 
+// ---------- Saved events ----------
+// One call returns both the ids (for button state) and the full events
+// (for the dashboard), so the two can never disagree.
+export async function fetchMySaved(userId) {
+  const { data, error } = await supabase
+    .from('saved_events')
+    .select(`event_id, events(*, profiles(avatar_url))`)
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false });
+  if (error) throw error;
+
+  const rows = data || [];
+  return {
+    ids: rows.map(r => r.event_id),
+    // events is null when the saved event is no longer readable (deleted, or
+    // pulled back into review), so drop those rather than render a blank card.
+    events: rows.map(r => mapEvent(r.events)).filter(Boolean),
+  };
+}
+
+export async function addSave(eventId, userId) {
+  const { error } = await supabase
+    .from('saved_events')
+    .insert({ event_id: eventId, user_id: userId });
+  // 23505 = already saved (double-click, or two tabs). The user's intent is
+  // satisfied either way, so this is not an error worth surfacing.
+  if (error && error.code !== '23505') throw error;
+}
+
+export async function removeSave(eventId, userId) {
+  const { error } = await supabase
+    .from('saved_events')
+    .delete()
+    .eq('event_id', eventId)
+    .eq('user_id', userId);
+  if (error) throw error;
+}
+
 // ---------- Storage ----------
 export async function uploadCover(file, userId) {
   const ext = (file.name.split('.').pop() || 'jpg').toLowerCase();

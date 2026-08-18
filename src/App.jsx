@@ -31,6 +31,8 @@ function App() {
   const [events, setEvents] = useState([]);
   const [pendingEvents, setPendingEvents] = useState([]);
   const [rsvpedIds, setRsvpedIds] = useState([]);
+  const [savedIds, setSavedIds] = useState([]);
+  const [savedEvents, setSavedEvents] = useState([]);
   const [toasts, setToasts] = useState([]);
 
   const addToast = useCallback((message, type = 'success') => {
@@ -81,7 +83,7 @@ function App() {
 
   // Pending queue and RSVPs are per-user, so they reload when the user changes.
   useEffect(() => {
-    if (!user) { setPendingEvents([]); setRsvpedIds([]); return; }
+    if (!user) { setPendingEvents([]); setRsvpedIds([]); setSavedIds([]); setSavedEvents([]); return; }
 
     let active = true;
     (async () => {
@@ -89,6 +91,11 @@ function App() {
         const ids = await api.fetchMyRsvpIds(user.id);
         if (active) setRsvpedIds(ids);
       } catch { /* RSVPs are non-critical for first paint */ }
+
+      try {
+        const saved = await api.fetchMySaved(user.id);
+        if (active) { setSavedIds(saved.ids); setSavedEvents(saved.events); }
+      } catch { /* saved list is non-critical for first paint */ }
 
       // Every signed-in user can submit, so everyone needs their pending
       // queue. RLS narrows it: an admin sees all pending events, everyone
@@ -114,6 +121,8 @@ function App() {
   const logout = async () => {
     try {
       await api.signOut();
+      setSavedIds([]);
+      setSavedEvents([]);
       addToast('Signed out successfully.', 'info');
     } catch (err) {
       addToast(`Sign out failed: ${err.message}`, 'error');
@@ -170,6 +179,33 @@ function App() {
     }
   };
 
+  const toggleSave = async (eventId) => {
+    if (!user) {
+      openAuth('login');
+      addToast('Sign in to save events.', 'info');
+      return;
+    }
+
+    const saved = savedIds.includes(eventId);
+    const event = [...events, ...savedEvents].find(e => e.id === eventId);
+
+    // Optimistic, rolled back if the database refuses.
+    setSavedIds(prev => saved ? prev.filter(id => id !== eventId) : [...prev, eventId]);
+    setSavedEvents(prev =>
+      saved ? prev.filter(e => e.id !== eventId) : (event ? [event, ...prev] : prev)
+    );
+
+    try {
+      if (saved) await api.removeSave(eventId, user.id);
+      else await api.addSave(eventId, user.id);
+      addToast(saved ? 'Removed from saved.' : 'Saved to your dashboard.', saved ? 'info' : 'success');
+    } catch (err) {
+      const refreshed = await api.fetchMySaved(user.id).catch(() => null);
+      if (refreshed) { setSavedIds(refreshed.ids); setSavedEvents(refreshed.events); }
+      addToast(`Could not save: ${err.message}`, 'error');
+    }
+  };
+
   const toggleRsvp = async (eventId) => {
     if (!user) {
       openAuth('login');
@@ -211,7 +247,15 @@ function App() {
               <Route path="/events" element={<EventsPage events={events} />} />
               <Route
                 path="/event/:id"
-                element={<EventDetailPage events={events} onRsvp={toggleRsvp} rsvpedIds={rsvpedIds} />}
+                element={
+                  <EventDetailPage
+                    events={events}
+                    onRsvp={toggleRsvp}
+                    rsvpedIds={rsvpedIds}
+                    onSave={toggleSave}
+                    savedIds={savedIds}
+                  />
+                }
               />
               <Route
                 path="/create"
@@ -228,6 +272,7 @@ function App() {
                   <DashboardPage
                     events={events}
                     pendingEvents={pendingEvents}
+                    savedEvents={savedEvents}
                     onDelete={removeEvent}
                   />
                 }

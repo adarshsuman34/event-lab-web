@@ -46,12 +46,13 @@ function renderDescription(description) {
   return blocks;
 }
 
-export default function EventDetailPage({ events, onRsvp, rsvpedIds = [] }) {
+export default function EventDetailPage({ events, onRsvp, rsvpedIds = [], onSave, savedIds = [] }) {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToast } = useToast();
   const event = events.find(e => e.id === id);
   const hasRsvped = rsvpedIds.includes(id);
+  const hasSaved = savedIds.includes(id);
 
   if (!event) {
     return (
@@ -284,9 +285,15 @@ export default function EventDetailPage({ events, onRsvp, rsvpedIds = [] }) {
                     <Share2 size={16} />
                     Share
                   </button>
-                  <button className="btn btn-secondary" id="btn-save">
-                    <Bookmark size={16} />
-                    Save
+                  <button
+                    type="button"
+                    className={`btn btn-secondary ${hasSaved ? 'detail-saved' : ''}`}
+                    onClick={() => onSave(event.id)}
+                    aria-pressed={hasSaved}
+                    id="btn-save"
+                  >
+                    <Bookmark size={16} fill={hasSaved ? 'currentColor' : 'none'} />
+                    {hasSaved ? 'Saved' : 'Save'}
                   </button>
                 </div>
               </div>

@@ -3,14 +3,15 @@ import { Link, useNavigate } from 'react-router-dom';
 import { format, isPast } from 'date-fns';
 import {
   Plus, Eye, Users, Calendar, TrendingUp, Edit3, Trash2,
-  CheckCircle, ExternalLink
+  CheckCircle, ExternalLink, Bookmark
 } from 'lucide-react';
 import { useAuth, useToast } from '../App';
 import ConfirmDialog from '../components/ConfirmDialog';
+import EventCard from '../components/EventCard';
 import { getCategoryById } from '../data/mockData';
 import './DashboardPage.css';
 
-export default function DashboardPage({ events, pendingEvents = [], onDelete }) {
+export default function DashboardPage({ events, pendingEvents = [], savedEvents = [], onDelete }) {
   const { user, openAuth } = useAuth();
   const navigate = useNavigate();
   const { addToast } = useToast();
@@ -194,6 +195,32 @@ export default function DashboardPage({ events, pendingEvents = [], onDelete }) 
               <button className="btn btn-primary" onClick={() => navigate('/create')}>
                 <Plus size={16} />
                 Post Event
+              </button>
+            </div>
+          )}
+        </div>
+        {/* Saved Events */}
+        <div className="dash-section animate-fade-in-up" style={{ animationDelay: '300ms' }}>
+          <h2 className="dash-section-title">
+            <Bookmark size={20} />
+            Saved Events ({savedEvents.length})
+          </h2>
+
+          {savedEvents.length > 0 ? (
+            <div className="event-grid stagger-children">
+              {savedEvents.map((event, i) => (
+                <EventCard key={event.id} event={event} index={i} />
+              ))}
+            </div>
+          ) : (
+            <div className="empty-state">
+              <div className="empty-state-icon">🔖</div>
+              <h3 className="empty-state-title">Nothing Saved Yet</h3>
+              <p className="empty-state-text">
+                Tap <strong>Save</strong> on any event and it will show up here.
+              </p>
+              <button className="btn btn-secondary" onClick={() => navigate('/events')}>
+                Browse Events
               </button>
             </div>
           )}
