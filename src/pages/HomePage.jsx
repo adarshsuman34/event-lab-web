@@ -133,25 +133,6 @@ export default function HomePage({ events }) {
             </Link>
           </div>
 
-          {/* Stats */}
-          <div className="hero-stats animate-fade-in-up" style={{ animationDelay: '400ms' }}>
-            <div className="hero-stat">
-              <span className="hero-stat-number">{upcomingEvents.length}</span>
-              <span className="hero-stat-label">Upcoming Events</span>
-            </div>
-            <div className="hero-stat-divider" />
-            <div className="hero-stat">
-              <span className="hero-stat-number">{todayEvents.length}</span>
-              <span className="hero-stat-label">Today</span>
-            </div>
-            <div className="hero-stat-divider" />
-            <div className="hero-stat">
-              <span className="hero-stat-number">
-                {new Set(events.map(e => e.organizer)).size}
-              </span>
-              <span className="hero-stat-label">Organisers</span>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -225,7 +206,9 @@ export default function HomePage({ events }) {
                 </div>
                 <div>
                   <h2 className="section-title">Happening Today</h2>
-                  <p className="section-subtitle">{todayEvents.length} events happening today</p>
+                  <p className="section-subtitle">
+                    {todayEvents.length} {todayEvents.length === 1 ? 'event' : 'events'} happening today
+                  </p>
                 </div>
               </div>
             </div>
@@ -281,7 +264,7 @@ export default function HomePage({ events }) {
                 <p className="section-subtitle">
                   {hasActiveFilters
                     ? 'Filtered results based on your criteria'
-                    : `${upcomingEvents.length} events coming up`
+                    : `${upcomingEvents.length} ${upcomingEvents.length === 1 ? 'event' : 'events'} coming up`
                   }
                 </p>
               </div>
