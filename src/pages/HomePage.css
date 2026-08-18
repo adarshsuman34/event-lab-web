@@ -158,7 +158,7 @@
 /* Stats */
 
 /* ====== Filter Bar ====== */
-.btn.hero-events-btn {
+.hero-mobile-actions {
   display: none;
 }
 
@@ -304,8 +304,17 @@
     display: none;
   }
 
-  .btn.hero-events-btn {
-    display: inline-flex;
+  .hero-mobile-actions {
+    display: flex;
+    gap: var(--space-sm);
+    width: 100%;
+  }
+
+  /* Equal halves so neither button dominates. */
+  .hero-mobile-actions .btn {
+    flex: 1;
+    justify-content: center;
+    white-space: nowrap;
   }
 
   .hero {
