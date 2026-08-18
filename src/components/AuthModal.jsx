@@ -117,7 +117,7 @@ export default function AuthModal({ mode, onClose, onLogin, onSwitchMode }) {
               <input
                 type="email"
                 className="form-input auth-input"
-                placeholder="you@campus.edu"
+                placeholder="you@example.com"
                 required
                 value={formData.email}
                 onChange={e => setFormData({ ...formData, email: e.target.value })}
@@ -153,13 +153,13 @@ export default function AuthModal({ mode, onClose, onLogin, onSwitchMode }) {
 
           {mode === 'signup' && (
             <div className="form-group">
-              <label className="form-label">Club / Society (optional)</label>
+              <label className="form-label">Organisation / Club (optional)</label>
               <div className="auth-input-wrapper">
                 <Building2 size={18} className="auth-input-icon" />
                 <input
                   type="text"
                   className="form-input auth-input"
-                  placeholder="e.g. Tech Club, Photography Club"
+                  placeholder="e.g. Tech Collective, Photography Society"
                   value={formData.club}
                   onChange={e => setFormData({ ...formData, club: e.target.value })}
                   id="auth-club"

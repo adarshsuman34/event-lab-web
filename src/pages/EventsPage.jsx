@@ -74,7 +74,7 @@ export default function EventsPage({ events }) {
           <div>
             <h1 className="events-title">All Events</h1>
             <p className="events-subtitle">
-              Every event on campus — browse, search, and filter.
+              Every event across India — browse, search, and filter.
             </p>
           </div>
         </div>
@@ -85,7 +85,7 @@ export default function EventsPage({ events }) {
           <input
             type="text"
             className="events-search-input"
-            placeholder="Search by title, club, location, or tag…"
+            placeholder="Search by title, organiser, city, or tag…"
             value={query}
             onChange={e => setQuery(e.target.value)}
             aria-label="Search events"

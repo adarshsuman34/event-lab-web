@@ -80,16 +80,16 @@ export default function HomePage({ events }) {
         <div className="container hero-content">
           <div className="hero-badge animate-fade-in-up">
             <Sparkles size={14} />
-            <span>Your Campus Event Hub</span>
+            <span>India's Event Hub</span>
           </div>
           <h1 className="hero-title animate-fade-in-up" style={{ animationDelay: '100ms' }}>
             Discover What's
             <br />
-            <span className="gradient-text">Happening On Campus</span>
+            <span className="gradient-text">Happening Across India</span>
           </h1>
           <p className="hero-subtitle animate-fade-in-up" style={{ animationDelay: '200ms' }}>
-            Find workshops, fests, hackathons, and more — all in one place.
-            Never miss out on campus life again.
+            Find workshops, fests, hackathons, meetups and more — from every
+            city in India, all in one place.
           </p>
 
           {/* Search Bar */}
@@ -98,7 +98,7 @@ export default function HomePage({ events }) {
               <Search size={20} className="hero-search-icon" />
               <input
                 type="text"
-                placeholder="Search events, clubs, topics..."
+                placeholder="Search events, organisers, cities, topics..."
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
                 className="hero-search-input"
@@ -142,7 +142,7 @@ export default function HomePage({ events }) {
               <span className="hero-stat-number">
                 {new Set(events.map(e => e.organizer)).size}
               </span>
-              <span className="hero-stat-label">Active Clubs</span>
+              <span className="hero-stat-label">Organisers</span>
             </div>
           </div>
         </div>

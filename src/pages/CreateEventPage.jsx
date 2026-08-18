@@ -321,7 +321,7 @@ export default function CreateEventPage({ onSubmit, onUpdate, findEvent }) {
             <p className="create-subtitle">
               {isEdit
                 ? 'Update the details below. Changes go live immediately.'
-                : 'Fill in the details to publish your event to the campus community.'}
+                : 'Fill in the details to publish your event to people across India.'}
             </p>
           </div>
         </div>
@@ -338,7 +338,7 @@ export default function CreateEventPage({ onSubmit, onUpdate, findEvent }) {
               <input
                 type="text"
                 className={`form-input ${errors.title ? 'input-error' : ''}`}
-                placeholder="e.g. HackCampus 2026 — 36-Hour Hackathon"
+                placeholder="e.g. HackIndia 2027 — 36-Hour Hackathon"
                 value={form.title}
                 onChange={e => updateField('title', e.target.value)}
                 id="input-title"
@@ -449,7 +449,7 @@ export default function CreateEventPage({ onSubmit, onUpdate, findEvent }) {
               <input
                 type="text"
                 className={`form-input ${errors.location ? 'input-error' : ''}`}
-                placeholder="e.g. Main Auditorium, Block A"
+                placeholder="e.g. Nehru Centre, Worli, Mumbai"
                 value={form.location}
                 onChange={e => updateField('location', e.target.value)}
                 id="input-location"
@@ -529,7 +529,7 @@ export default function CreateEventPage({ onSubmit, onUpdate, findEvent }) {
               <input
                 type="text"
                 className={`form-input ${errors.organizer ? 'input-error' : ''}`}
-                placeholder="e.g. Tech Club"
+                placeholder="e.g. Tech Collective, Bengaluru"
                 value={form.organizer}
                 onChange={e => updateField('organizer', e.target.value)}
                 id="input-organizer"
@@ -543,7 +543,7 @@ export default function CreateEventPage({ onSubmit, onUpdate, findEvent }) {
                 <input
                   type="email"
                   className="form-input"
-                  placeholder="contact@club.edu"
+                  placeholder="contact@yourorg.in"
                   value={form.contactEmail}
                   onChange={e => updateField('contactEmail', e.target.value)}
                   id="input-contact-email"
