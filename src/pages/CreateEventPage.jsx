@@ -206,6 +206,9 @@ export default function CreateEventPage({ onSubmit, onUpdate, findEvent }) {
     if (form.isOnline && !form.onlineLink.trim()) errs.onlineLink = 'Online link is required';
     if (!form.organizer.trim()) errs.organizer = 'Organizer name is required';
 
+    if (!form.dateEnd) errs.dateEnd = 'End date is required';
+    if (!form.timeEnd) errs.timeEnd = 'End time is required';
+
     if (form.dateStart && form.timeStart) {
       const start = new Date(`${form.dateStart}T${form.timeStart}`);
       if (Number.isNaN(start.getTime())) {
@@ -214,21 +217,28 @@ export default function CreateEventPage({ onSubmit, onUpdate, findEvent }) {
         errs.dateStart = 'Start date and time must be in the future';
       }
 
-      // An end date is optional, but a partial one silently disappeared before.
-      if (form.dateEnd || form.timeEnd) {
-        if (!form.dateEnd) {
-          errs.dateEnd = 'Add an end date to go with the end time';
-        } else if (!form.timeEnd) {
-          errs.timeEnd = 'Add an end time to go with the end date';
-        } else {
-          const end = new Date(`${form.dateEnd}T${form.timeEnd}`);
-          if (Number.isNaN(end.getTime())) {
-            errs.dateEnd = 'Enter a valid end date and time';
-          } else if (end <= start) {
-            errs.dateEnd = 'End must be after the start';
-          }
+      if (form.dateEnd && form.timeEnd) {
+        const end = new Date(`${form.dateEnd}T${form.timeEnd}`);
+        if (Number.isNaN(end.getTime())) {
+          errs.dateEnd = 'Enter a valid end date and time';
+        } else if (end <= start) {
+          errs.dateEnd = 'End must be after the start';
         }
       }
+    }
+
+    if (!form.contactEmail.trim()) {
+      errs.contactEmail = 'Contact email is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.contactEmail.trim())) {
+      errs.contactEmail = 'Enter a valid email address';
+    }
+
+    if (!form.contactPhone.trim()) {
+      errs.contactPhone = 'Contact phone is required';
+    } else if ((form.contactPhone.match(/\d/g) || []).length < 10) {
+      // Deliberately lenient about formatting — +91, spaces and dashes are all
+      // fine — but a usable Indian number needs at least 10 digits.
+      errs.contactPhone = 'Enter a valid phone number (at least 10 digits)';
     }
 
     if (form.capacity) {
@@ -419,7 +429,9 @@ export default function CreateEventPage({ onSubmit, onUpdate, findEvent }) {
 
             <div className="form-row">
               <div className="form-group">
-                <label className="form-label">End Date</label>
+                <label className="form-label">
+                  End Date <span className="required">*</span>
+                </label>
                 <input
                   type="date"
                   className={`form-input ${errors.dateEnd ? 'input-error' : ''}`}
@@ -430,7 +442,9 @@ export default function CreateEventPage({ onSubmit, onUpdate, findEvent }) {
                 {errors.dateEnd && <span className="form-error">{errors.dateEnd}</span>}
               </div>
               <div className="form-group">
-                <label className="form-label">End Time</label>
+                <label className="form-label">
+                  End Time <span className="required">*</span>
+                </label>
                 <input
                   type="time"
                   className={`form-input ${errors.timeEnd ? 'input-error' : ''}`}
@@ -539,26 +553,32 @@ export default function CreateEventPage({ onSubmit, onUpdate, findEvent }) {
 
             <div className="form-row">
               <div className="form-group">
-                <label className="form-label">Contact Email</label>
+                <label className="form-label">
+                  Contact Email <span className="required">*</span>
+                </label>
                 <input
                   type="email"
-                  className="form-input"
+                  className={`form-input ${errors.contactEmail ? 'input-error' : ''}`}
                   placeholder="contact@yourorg.in"
                   value={form.contactEmail}
                   onChange={e => updateField('contactEmail', e.target.value)}
                   id="input-contact-email"
                 />
+                {errors.contactEmail && <span className="form-error">{errors.contactEmail}</span>}
               </div>
               <div className="form-group">
-                <label className="form-label">Contact Phone</label>
+                <label className="form-label">
+                  Contact Phone <span className="required">*</span>
+                </label>
                 <input
                   type="tel"
-                  className="form-input"
+                  className={`form-input ${errors.contactPhone ? 'input-error' : ''}`}
                   placeholder="+91 98765 43210"
                   value={form.contactPhone}
                   onChange={e => updateField('contactPhone', e.target.value)}
                   id="input-contact-phone"
                 />
+                {errors.contactPhone && <span className="form-error">{errors.contactPhone}</span>}
               </div>
             </div>
           </div>
