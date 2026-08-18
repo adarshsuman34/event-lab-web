@@ -109,7 +109,6 @@ export default function Navbar() {
                 aria-haspopup="menu"
                 id="btn-profile"
               >
-                <img src={user.avatar} alt={user.name} className="navbar-avatar" />
                 <span className="navbar-username">{user.name.split(' ')[0]}</span>
                 <ChevronDown size={14} className={`navbar-chevron ${profileOpen ? 'rotated' : ''}`} />
               </button>

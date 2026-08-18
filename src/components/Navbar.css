@@ -117,13 +117,6 @@
   background: var(--color-bg-elevated);
 }
 
-.navbar-avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
 .navbar-username {
   font-size: var(--text-sm);
   font-weight: var(--font-medium);
@@ -269,12 +262,8 @@
     display: none;
   }
 
-  .navbar-username {
-    display: none;
-  }
-
   .navbar-profile-btn {
-    padding: 4px;
+    padding: 6px 10px;
   }
 }
 
