@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { isToday, isTomorrow, isThisWeek, isAfter } from 'date-fns';
 import {
   Search, SlidersHorizontal, X, Sparkles, TrendingUp,
-  Calendar, Zap, ChevronRight
+  Calendar, CalendarDays, Zap, ChevronRight
 } from 'lucide-react';
 import EventCard from '../components/EventCard';
 import { CATEGORIES } from '../data/mockData';
@@ -124,6 +124,13 @@ export default function HomePage({ events }) {
               <SlidersHorizontal size={18} />
               <span>Filters</span>
             </button>
+
+            {/* Phones swap the inline filter bar for the full Events page.
+                CSS shows exactly one of these per breakpoint. */}
+            <Link to="/events" className="btn btn-secondary hero-events-btn" id="btn-hero-events">
+              <CalendarDays size={18} />
+              <span>Events</span>
+            </Link>
           </div>
 
           {/* Stats */}

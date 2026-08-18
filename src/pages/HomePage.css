@@ -190,6 +190,10 @@
 }
 
 /* ====== Filter Bar ====== */
+.btn.hero-events-btn {
+  display: none;
+}
+
 .filter-bar {
   padding: var(--space-lg) 0;
   border-bottom: 1px solid var(--color-border);
@@ -326,6 +330,16 @@
 
 /* ====== Responsive ====== */
 @media (max-width: 768px) {
+  /* On phones the inline filter bar is cramped; send people to /events
+     instead, which has search, category and date filtering with more room. */
+  .btn.hero-filter-btn {
+    display: none;
+  }
+
+  .btn.hero-events-btn {
+    display: inline-flex;
+  }
+
   .hero {
     min-height: auto;
     padding: 120px 0 60px;
